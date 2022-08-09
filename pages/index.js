@@ -1,5 +1,5 @@
 import MeetupList from '../components/meetups/MeetupList'
-
+import MeetupDetail from '../components/meetups/MeetupDetail'
 const DUMMY = [
     {
         id: 'm1',
