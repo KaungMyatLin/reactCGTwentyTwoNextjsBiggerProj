@@ -1,5 +1,5 @@
 import MeetupList from '../components/meetups/MeetupList'
-import MeetupDetail from '../components/meetups/MeetupDetail'
+// import { useEffect } from 'react'
 const DUMMY = [
     {
         id: 'm1',
@@ -17,10 +17,30 @@ const DUMMY = [
     },
 ]
 
-const HomePage = () => {
+const HomePage = (props) => {
+    // below code no longer needed if we switch to 
+    // data-fetching for static generation.
+    // const [loadedMeetups, setLoadedMeetups] = setState([]);
+    // useEffect(() => {
+    //     // send a http request and fetch data
+    //     setLoadedMeetups(DUMMY)
+    // }, [])
+    // reminder useEffect loads after component done loading.
     return (
-        <MeetupList meetups={DUMMY} />
+        <MeetupList meetups={props.meetups} />
     )
+}
+
+// to run this code for during static generation 
+// this code needs to be on "page" component and 
+// export with "getStaticProps".
+// async is allowed.
+export async function getStaticProps() {
+    return {
+        props: {
+            meetups: DUMMY
+        }
+    }
 }
 
 export default HomePage
