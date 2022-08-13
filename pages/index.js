@@ -19,7 +19,7 @@ const DUMMY = [
 
 const HomePage = (props) => {
     // below code no longer needed if we switch to 
-    // data-fetching for static generation.
+    // data-fetching for static site generation.
     // const [loadedMeetups, setLoadedMeetups] = setState([]);
     // useEffect(() => {
     //     // send a http request and fetch data
@@ -31,16 +31,29 @@ const HomePage = (props) => {
     )
 }
 
-// to run this code for during static generation 
-// this code needs to be on "page" component and 
-// export with "getStaticProps".
-// async is allowed.
+// to run this code for during static generation, this code needs to be on "page" component and 
+// export with "getStaticProps". async is allowed.
+// this code advantage over below code server-side-rendering is SSG pages can be stored over cdn and also cached.
 export async function getStaticProps() {
     return {
         props: {
             meetups: DUMMY
-        }
+        },
+        revalidate: 1
+        // revalidate: 3600, refetch every hour for static site generation by nextjs, 
+        // this is called incremental static site generation.
     }
 }
+
+// data-fetching for server-side-rendering for every incoming request.
+// export async function getServerSideProps(context) {
+//     const req = context.req
+//     const res = context.res
+//     return {
+//         props: {
+//             meetups: DUMMY
+//         },
+//     }
+// }
 
 export default HomePage
