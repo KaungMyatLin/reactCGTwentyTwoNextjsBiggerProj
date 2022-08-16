@@ -1,4 +1,5 @@
 import MeetupList from '../components/meetups/MeetupList'
+import { MongoClient } from 'mongodb'
 // import { useEffect } from 'react'
 const DUMMY = [
     {
@@ -35,9 +36,20 @@ const HomePage = (props) => {
 // export with "getStaticProps". async is allowed.
 // this code advantage over below code server-side-rendering is SSG pages can be stored over cdn and also cached.
 export async function getStaticProps() {
+    const client = 
+    await MongoClient.connect('mongodb+srv://anyadmin:tw22d56f@cluster0.l3tew0h.mongodb.net/meetups?retryWrites=true&w=majority');
+    const db = client.db();
+    const meetupsCollection = db.collection('meetups');
+    const getallmeetups = await meetupsCollection.find().toArray();
+    client.close();
     return {
         props: {
-            meetups: DUMMY
+            meetups: getallmeetups.map( ameetup => ({
+                title: ameetup.title,
+                address: ameetup.address,
+                image: ameetup.image,
+                id: ameetup._id.toString()
+            }))
         },
         revalidate: 1
         // revalidate: 3600, refetch every hour for static site generation by nextjs, 
