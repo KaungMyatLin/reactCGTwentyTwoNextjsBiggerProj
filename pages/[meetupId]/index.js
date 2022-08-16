@@ -84,7 +84,8 @@ export async function getStaticPaths() {
         //         meetupId: "m2",
         //     }},
         // ],
-        fallback: false
+        fallback: 'blocking'
+        // false
     }
 }
 
