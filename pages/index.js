@@ -1,5 +1,6 @@
 import MeetupList from '../components/meetups/MeetupList'
 import { MongoClient } from 'mongodb'
+import Head from 'next/head'
 // import { useEffect } from 'react'
 const HomePage = (props) => {
     // below code no longer needed if we switch to 
@@ -11,7 +12,13 @@ const HomePage = (props) => {
     // }, [])
     // reminder useEffect loads after component done loading.
     return (
-        <MeetupList meetups={props.meetups} />
+        <Fragment>
+            <Head>
+                <title>React Meetups</title>
+                <meta name="description" content="Browse a huge list of highly active React meetups!" />
+            </Head>
+            <MeetupList meetups={props.meetups} />
+        </Fragment>
     )
 }
 

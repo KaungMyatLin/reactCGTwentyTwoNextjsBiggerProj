@@ -1,14 +1,21 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail'
 import { MongoClient, objectId } from 'mongodb'
+import Head from 'next/head'
 const MeetupDetails = (props) => {
     return (
-        <MeetupDetail image={props.meetupData.image}
-        title={props.meetupData.title} address={props.meetupData.address} description={props.meetupData.description} />
+        <Fragment>
+            <Head>
+                <title>{props.meetupData.title}</title>
+                <meta name="description" content={props.meetupData.description} />
+            </Head>
+            <MeetupDetail image={props.meetupData.image} title={props.meetupData.title} address={props.meetupData.address} 
+            description={props.meetupData.description} />
+        </Fragment>
         // by the time removing hardcoded
         // <MeetupDetail image="https://upload.wikimedia.org/wikipedia/commons/d/d3/Stadtbild_M%C3%BCnchen.jpg"
         // title="A first meetup" address="Some address 5, 12345 Some City" description="This is a first meetup" />
         // <Fragment>
-        //     <img src={props.image} 
+        //     <img src={props.image}
         //     alt={props.title} />
         //     <h1>{props.title}</h1>
         //     <address> {props.address} </address>
@@ -35,7 +42,7 @@ export async function getStaticProps(context) {
                 address: selectedMeetup.address,
                 image: selectedMeetup.image,
                 description: selectedMeetup.description,
-            } 
+            }
             // by the time removing hardcoded
             // meetupData: {
             //     image: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Stadtbild_M%C3%BCnchen.jpg",

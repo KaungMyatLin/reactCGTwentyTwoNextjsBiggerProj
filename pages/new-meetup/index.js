@@ -1,5 +1,6 @@
 import NewMeetupForm from '../../components/meetups/NewMeetupForm'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 const newMeetupPage = () => {
     const router = useRouter();
     async function addMeetupH (entMeetUpData) {
@@ -15,7 +16,13 @@ const newMeetupPage = () => {
         router.push('/');
     }
     return (
-        <NewMeetupForm onAddMeetup={addMeetupH}/>
+        <Fragment>
+            <Head>
+                <title>Add a new meetup</title>
+                <meta name="description" content="Add your own meetups and create amazing networking opportunities." />
+            </Head>
+            <NewMeetupForm onAddMeetup={addMeetupH}/>
+        </Fragment>
     )
 }
 
