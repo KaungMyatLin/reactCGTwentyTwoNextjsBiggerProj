@@ -2,8 +2,11 @@ import MeetupDetail from '../../components/meetups/MeetupDetail'
 import { MongoClient } from 'mongodb'
 const MeetupDetails = (props) => {
     return (
-        <MeetupDetail image="https://upload.wikimedia.org/wikipedia/commons/d/d3/Stadtbild_M%C3%BCnchen.jpg"
-        title="A first meetup" address="Some address 5, 12345 Some City" description="This is a first meetup" />
+        <MeetupDetail image={props.meetupData.image}
+        title={props.meetupData.title} address={props.meetupData.address} description={props.meetupData.description} />
+        // by the time removing hardcoded
+        // <MeetupDetail image="https://upload.wikimedia.org/wikipedia/commons/d/d3/Stadtbild_M%C3%BCnchen.jpg"
+        // title="A first meetup" address="Some address 5, 12345 Some City" description="This is a first meetup" />
         // <Fragment>
         //     <img src={props.image} 
         //     alt={props.title} />
