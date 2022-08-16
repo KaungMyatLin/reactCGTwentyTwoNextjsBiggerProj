@@ -1,5 +1,5 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail'
-import { MongoClient, objectId } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 import Head from 'next/head'
 import { Fragment } from 'react'
 
@@ -34,7 +34,7 @@ export async function getStaticProps(context) {
     await MongoClient.connect('mongodb+srv://anyadmin:tw22d56f@cluster0.l3tew0h.mongodb.net/meetups?retryWrites=true&w=majority');
     const db = client.db();
     const meetupsCollection = db.collection('meetups');
-    const selectedMeetup = await meetupsCollection.findOne({_id: objectId(urlParamMeetupId)});
+    const selectedMeetup = await meetupsCollection.findOne({_id: ObjectId(urlParamMeetupId)});
     client.close();
     return {
         props: {
