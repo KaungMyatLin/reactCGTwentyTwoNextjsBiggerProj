@@ -1,5 +1,5 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail'
-import { MongoClient } from 'mongodb'
+import { MongoClient, objectId } from 'mongodb'
 const MeetupDetails = (props) => {
     return (
         <MeetupDetail image={props.meetupData.image}
@@ -25,11 +25,17 @@ export async function getStaticProps(context) {
     await MongoClient.connect('mongodb+srv://anyadmin:tw22d56f@cluster0.l3tew0h.mongodb.net/meetups?retryWrites=true&w=majority');
     const db = client.db();
     const meetupsCollection = db.collection('meetups');
-    const selectedMeetup = await meetupsCollection.findOne({_id: urlParamMeetupId});
+    const selectedMeetup = await meetupsCollection.findOne({_id: objectId(urlParamMeetupId)});
     client.close();
     return {
         props: {
-            meetupData: selectedMeetup 
+            meetupData: {
+                id: selectedMeetup._id.toString(),
+                title: selectedMeetup.title,
+                address: selectedMeetup.address,
+                image: selectedMeetup.image,
+                description: selectedMeetup.description,
+            } 
             // by the time removing hardcoded
             // meetupData: {
             //     image: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Stadtbild_M%C3%BCnchen.jpg",
