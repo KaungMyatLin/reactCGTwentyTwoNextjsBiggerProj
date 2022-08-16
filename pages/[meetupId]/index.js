@@ -1,5 +1,5 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail'
-
+import { MongoClient } from 'mongodb'
 const MeetupDetails = (props) => {
     return (
         <MeetupDetail image="https://upload.wikimedia.org/wikipedia/commons/d/d3/Stadtbild_M%C3%BCnchen.jpg"
@@ -17,17 +17,24 @@ const MeetupDetails = (props) => {
 // to run this code for during static generation, this code needs to be on "page" component and 
 // export with "getStaticProps". async is allowed.
 export async function getStaticProps(context) {
-    const meetupId = context.params.meetupId;
-    console.log(meetupId);
+    const urlParamMeetupId = context.params.meetupId;
+    const client = 
+    await MongoClient.connect('mongodb+srv://anyadmin:tw22d56f@cluster0.l3tew0h.mongodb.net/meetups?retryWrites=true&w=majority');
+    const db = client.db();
+    const meetupsCollection = db.collection('meetups');
+    const selectedMeetup = await meetupsCollection.findOne({_id: urlParamMeetupId});
+    client.close();
     return {
         props: {
-            meetupData: {
-                image: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Stadtbild_M%C3%BCnchen.jpg",
-                id: meetupId,
-                title: "A first meetup",
-                address: "Some address 5, 12345 Some City",
-                description: "This is a first meetup"
-            }
+            meetupData: selectedMeetup 
+            // by the time removing hardcoded
+            // meetupData: {
+            //     image: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Stadtbild_M%C3%BCnchen.jpg",
+            //     id: meetupId,
+            //     title: "A first meetup",
+            //     address: "Some address 5, 12345 Some City",
+            //     description: "This is a first meetup"
+            // }
         },
         revalidate: 1
         // revalidate: 3600, refetch every hour for static site generation by nextjs, 
@@ -38,15 +45,27 @@ export async function getStaticProps(context) {
 // you need getStaticPaths if you are using exactly both [dynamic page] and getStaticProps. 
 // you don't need getStaticPaths if you are using neither getServerSideProps nor getStaticProps.
 export async function getStaticPaths() {
+    const client = 
+    await MongoClient.connect('mongodb+srv://anyadmin:tw22d56f@cluster0.l3tew0h.mongodb.net/meetups?retryWrites=true&w=majority');
+    const db = client.db();
+    const meetupsCollection = db.collection('meetups');
+    const getallmeetups = await meetupsCollection.find({}, {_id: 1}).toArray();
+    client.close();
     return {
-        paths: [
-            { params: {
-                meetupId: "m1",
-            }},
-            { params: {
-                meetupId: "m2",
-            }},
-        ],
+        paths: getallmeetups.map( ameetup => ({
+            params: {
+                meetupId: ameetup._id.toString()
+            }
+        })),
+        // by the time removing hardcoded
+        // paths: [
+        //     { params: {
+        //         meetupId: "m1",
+        //     }},
+        //     { params: {
+        //         meetupId: "m2",
+        //     }},
+        // ],
         fallback: false
     }
 }
