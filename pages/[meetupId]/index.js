@@ -1,6 +1,8 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail'
 import { MongoClient, objectId } from 'mongodb'
 import Head from 'next/head'
+import { Fragment } from 'react'
+
 const MeetupDetails = (props) => {
     return (
         <Fragment>

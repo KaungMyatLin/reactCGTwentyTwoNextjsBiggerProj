@@ -1,6 +1,7 @@
 import MeetupList from '../components/meetups/MeetupList'
 import { MongoClient } from 'mongodb'
 import Head from 'next/head'
+import { Fragment } from 'react'
 // import { useEffect } from 'react'
 const HomePage = (props) => {
     // below code no longer needed if we switch to 
